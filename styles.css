@@ -1,0 +1,17 @@
+/*#main*/
+
+@font-face {
+    font-family: 'Circular';
+    src: url("https://cdn.loom.com/assets/marketing/fonts/CircularXXWeb-Bold.woff2") format('woff2'),
+}
+  
+  input {
+    padding:10px;
+    border:0;
+    box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+    border-radius:10px;
+  }
+
+  .overlay {
+    scale: 200%;
+  }

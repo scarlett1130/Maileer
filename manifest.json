@@ -1,0 +1,22 @@
+{
+	"manifest_version": 2,
+	"name": "Maileer",
+	"description": "emails, done fast.",
+	"version": "1.0",
+	"permissions": ["https://mail.google.com/*", "https://inbox.google.com/*", "alarms"],
+	"background": {
+		"scripts": ["background.js"]
+	},
+	"content_scripts": [
+		{
+			"matches": [
+				"https://mail.google.com/*",
+				"https://inbox.google.com/*"
+			],
+			"js": ["inboxsdk.js", "app.js"]
+		}
+	],
+	"icons": { "16": "icon.png",
+           "48": "icon.png",
+          "128": "icon.png" }
+}
