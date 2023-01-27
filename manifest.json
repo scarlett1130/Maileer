@@ -9,6 +9,7 @@
 	},
 	"content_scripts": [
 		{
+			"css": ["styles.css"],
 			"matches": [
 				"https://mail.google.com/*",
 				"https://inbox.google.com/*"

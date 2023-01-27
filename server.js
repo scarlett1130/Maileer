@@ -1,7 +1,10 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
 const dotenv = require('dotenv').config();
 const { Configuration, OpenAIApi } = require('openai');
+
+app.use(cors({origin: '*'}));
 
 const configuration = new Configuration({
 	apiKey: process.env.OPENAI_API_KEY,
@@ -15,13 +18,13 @@ app.get('/:input', (req, res) => {
 			model: 'text-davinci-003',
 			prompt: input,
 			temperature: 1,
-			max_tokens: 200,
+			max_tokens: 100,
 			top_p: 1,
 			frequency_penalty: 0.0,
 			presence_penalty: 0.0
 		})
 		.then(response => {
-			res.send("response.data.choices[0].text");
+			res.send(response.data.choices[0].text);
 		})
 		.catch(() => {
 			res.send("Error");

@@ -12,7 +12,7 @@ InboxSDK.load(2, 'sdk_Maileer_3673560729').then(function (sdk) {
 				'https://raw.githubusercontent.com/FlightSimCentral/mailyr_logo/main/icon_gmail.png',
 			onClick: function (event) {
 				sdk.Widgets.showModalView({
-					el: "<div id='main'><form id='my-form'><input type='text' id='input'></form></div>",
+					el: "<div id='main'><form id='my-form'><input placeholder='Write instructions' type='text' id='input'></form></div>",
 					buttons: [
 						{
 							title: 'Submit',
@@ -24,20 +24,19 @@ InboxSDK.load(2, 'sdk_Maileer_3673560729').then(function (sdk) {
 								(() => {
 									chrome.runtime.sendMessage(inputValue, (res) => {
 										sdk.Widgets.showModalView({
-											el: `<div id='main'><p id='response'>${res}</p></div>`,
+											el: `<div id='response-container'>${res}</div>`,
 											buttons: [
 												{
 													title: 'Copy',
 													onClick: function() {
-														let text = document.getElementById('response').innerHTML;
+														let text = document.getElementById('response-container').innerHTML;
 	
 														(async () => {
 															try {
 																await navigator.clipboard.writeText(text);
-																console.log('Content copied to the clipboard');
 															}
 															catch (err) {
-																console.log('Failed to copy: ', err);
+																console.log(err);
 															}
 														})()
 													}
