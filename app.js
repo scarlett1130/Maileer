@@ -13,7 +13,7 @@ InboxSDK.load(2, 'sdk_Maileer_3673560729').then((sdk) => {
 			onClick: (event) => {
 				sdk.Widgets.showModalView({
 					el: `<div id='main'>
-							<img src="https://raw.githubusercontent.com/FlightSimCentral/mailyr_logo/main/icon_gmail.png">
+							<img id="logo" src="https://raw.githubusercontent.com/FlightSimCentral/mailyr_logo/main/icon_gmail.png">
 							<label for="context" id="context-label">Email context:</label>
 							<textarea type="text" id="context"></textarea>
 							<label for="desired-response" id="desired-response-label">Describe what do you want to respond:</label>
@@ -39,6 +39,7 @@ InboxSDK.load(2, 'sdk_Maileer_3673560729').then((sdk) => {
 
 								chrome.runtime.sendMessage(aiInput, generatedResponse => {
 									responseContainer.value = generatedResponse;
+									responseContainer.focus();
 								});
 							},
 						},

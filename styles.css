@@ -14,7 +14,7 @@
   height: 60vh;
 }
 
-img {
+#logo {
   width: 50px;
   height: 50px;
 }
@@ -30,6 +30,10 @@ textarea {
 }
 textarea:focus {
   border-color: rgb(69, 236, 236);
+}
+
+#generated-response:focus {
+  border-color: rgb(206, 33, 212);
 }
 
 #context {
