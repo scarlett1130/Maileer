@@ -26,8 +26,8 @@ app.get('/:input', (req, res) => {
 		.then(response => {
 			res.send(response.data.choices[0].text);
 		})
-		.catch(() => {
-			res.send("Error");
+		.catch((err) => {
+			res.send("There was an error trying to connect to OpenAI ChatGPT-3");
 		});
 });
 

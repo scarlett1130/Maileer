@@ -3,51 +3,60 @@ link.href = "styles.css";
 link.type = "text/css";
 link.rel = "stylesheet";
 
-InboxSDK.load(2, 'sdk_Maileer_3673560729').then(function (sdk) {
-	sdk.Compose.registerComposeViewHandler(function (composeView) {
+InboxSDK.load(2, 'sdk_Maileer_3673560729').then((sdk) => {
+	sdk.Compose.registerComposeViewHandler((composeView) => {
 		composeView.addButton({
 			title: 'Mailyr',
 			className: 'overlay',
 			iconUrl:
 				'https://raw.githubusercontent.com/FlightSimCentral/mailyr_logo/main/icon_gmail.png',
-			onClick: function (event) {
+			onClick: (event) => {
 				sdk.Widgets.showModalView({
-					el: "<div id='main'><form id='my-form'><input placeholder='Write instructions' type='text' id='input'></form></div>",
+					el: `<div id='main'>
+							<img src="https://raw.githubusercontent.com/FlightSimCentral/mailyr_logo/main/icon_gmail.png">
+							<label for="context" id="context-label">Email context:</label>
+							<textarea type="text" id="context"></textarea>
+							<label for="desired-response" id="desired-response-label">Describe what do you want to respond:</label>
+							<input type="text" id="desired-response">
+							<label for="generated-response" id="generated-response-label">Generated response:</label>
+							<textarea id="generated-response"></textarea>
+						</div>`,
+					title: 'Maileer Email Generator',
 					buttons: [
 						{
-							title: 'Submit',
-							onClick: function () {
-								// Get the value of the input box
-								const inputValue =
-									document.getElementById('input').value;
+							text: 'Generate response',
+							title: 'Generates a response from the AI',
+							type: 'PRIMARY_ACTION',
+							orderHint: 1,
+							color: 'green',
+							onClick: () => {
+								const context = document.getElementById('context');
+								const desiredResponse = document.getElementById('desired-response');
+		
+								const aiInput = `Email context: ${context.value}\nDesired response: ${desiredResponse.value}`;
+		
+								const responseContainer = document.getElementById('generated-response');
 
-								(() => {
-									chrome.runtime.sendMessage(inputValue, (res) => {
-										sdk.Widgets.showModalView({
-											el: `<div id='response-container'>${res}</div>`,
-											buttons: [
-												{
-													title: 'Copy',
-													onClick: function() {
-														let text = document.getElementById('response-container').innerHTML;
-	
-														(async () => {
-															try {
-																await navigator.clipboard.writeText(text);
-															}
-															catch (err) {
-																console.log(err);
-															}
-														})()
-													}
-												}
-											]
-										})
-									});
-								})();
+								chrome.runtime.sendMessage(aiInput, generatedResponse => {
+									responseContainer.value = generatedResponse;
+								});
 							},
 						},
-					],
+						{
+							text: 'Copy to the clipboard',
+							title: 'Copy the response',
+							color: 'blue',
+							onClick: async () => {
+								const responseContainer = document.getElementById('generated-response');
+								try {
+									await navigator.clipboard.writeText(responseContainer.value);
+								}
+								catch {
+									console.log('Failed to copy to clipboard');
+								}
+							}
+						}
+					]
 				});
 			},
 		});
