@@ -5,20 +5,21 @@ const dotenv = require('dotenv').config();
 const { Configuration, OpenAIApi } = require('openai');
 
 app.use(cors({origin: '*'}));
+app.use(express.json());
 
 const configuration = new Configuration({
 	apiKey: process.env.OPENAI_API_KEY,
 });
 const openai = new OpenAIApi(configuration);
 
-app.get('/:input', (req, res) => {
-	const { input } = req.params;
+app.post('/', (req, res) => {
+	const input = req.body.input;
 	openai
 		.createCompletion({
 			model: 'text-davinci-003',
 			prompt: input,
-			temperature: 1,
-			max_tokens: 100,
+			temperature: 0.3,
+			max_tokens: 150,
 			top_p: 1,
 			frequency_penalty: 0.0,
 			presence_penalty: 0.0
@@ -26,7 +27,7 @@ app.get('/:input', (req, res) => {
 		.then(response => {
 			res.send(response.data.choices[0].text);
 		})
-		.catch((err) => {
+		.catch(() => {
 			res.send("There was an error trying to connect to OpenAI ChatGPT-3");
 		});
 });
